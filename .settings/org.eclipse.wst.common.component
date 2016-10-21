@@ -2,6 +2,8 @@
     <wb-module deploy-name="WebTest">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/drivers"/>
         <property name="context-root" value="WebTest"/>
         <property name="java-output-path" value="/WebTest/build/classes"/>
     </wb-module>
