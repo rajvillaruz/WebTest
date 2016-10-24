@@ -39,6 +39,12 @@
 						<input type="text" class="form-control" id="txtQAName" placeholder="Enter name">
 					</div>
 				</div>
+				<div class="form-group">
+					<label for="txtQAName">IP:</label>
+					<div> 
+						<input type="text" class="form-control" id="txtIP" placeholder="Enter IP Address">
+					</div>
+				</div>
 				<div class="form-group"> 
 					<div>
 						<div class="file">

@@ -13,7 +13,17 @@ public class KeywordUtil {
 	public String property = "";
 	public String value = "";
 	public String expected = "";
+	public String ipAddress = "";
 	public String[] browser;
+	
+	
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 	
 	public String[] getBrowser() {
 		return browser;
@@ -49,7 +59,7 @@ public class KeywordUtil {
 		String result = "";
 		switch (keyword.toUpperCase()) {
 		case "OPEN BROWSER":
-			result = KeywordLib.openBrowser(browser);
+			result = KeywordLib.openBrowser(browser, ipAddress);
 			break;
 		case "LAUNCH APP":
 			result = KeywordLib.launchApp(property);

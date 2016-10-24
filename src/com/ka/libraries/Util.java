@@ -26,27 +26,20 @@ public class Util {
 	
 	public boolean uploadFile() {
 		DiskFileItemFactory factory = new DiskFileItemFactory();
-		//Maximum size that will be stored in memory
 		factory.setSizeThreshold(maxMemSize);
-		//Location to save data that is larger than maxMemSize.
 		factory.setRepository(new File("c:\\temp"));
-		//Create a new file upload handler
 		ServletFileUpload upload = new ServletFileUpload(factory);
-		//Maximum file size to be uploaded.
 		upload.setSizeMax( maxFileSize );
 		boolean isUploaded = false;
 
 		try { 
-			//Parse the request to get file items.
+			
 			List<FileItem> fileItems = upload.parseRequest(request);
-			// Process the uploaded file items
 			Iterator<FileItem> i = fileItems.iterator();
 			while ( i.hasNext () ) {
 				FileItem fi = (FileItem)i.next();
 				if ( !fi.isFormField () ) {
-					// Get the uploaded file parameters
 					String fileName = fi.getName();
-					//Write the file
 					if( fileName.lastIndexOf("\\") >= 0 ){
 						file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\"))) ;
 					} else {

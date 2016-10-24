@@ -31,6 +31,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -52,6 +53,7 @@ public class MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String filePath;
 	private String page;
+	private String ipAddress = "";
 //	private Map<String, List<Map<String, String[]>>> crossBrowserResult = new HashMap<String, List<Map<String, String[]>>>();
 	private List<String> crossBrowserResult = new ArrayList<String>();
 	private String[][] browsers = {
@@ -60,7 +62,6 @@ public class MainController extends HttpServlet {
 	private PdfUtility pdfUtility;
 
 	public void init( ){
-//		filePath = getServletContext().getInitParameter("file-upload");
 		filePath = Constants.PATH_UPLOAD;
 	}
 	
@@ -74,11 +75,14 @@ public class MainController extends HttpServlet {
 			if( !isMultipart ){
 				page = "view/error.jsp";
 			} else {
+				String project = request.getParameter("projectName");
+				String qa = request.getParameter("qaName");
+				ipAddress = request.getParameter("ipaddress");
+				System.out.println(ipAddress);
 				uploadFile(request, response);
 				try {
 					savePDF();
 				} catch (DocumentException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -94,13 +98,13 @@ public class MainController extends HttpServlet {
 		File file = fileUpload.getFile();
 		if (isUploaded) {
 			page = "view/result.jsp";
-			readExcelFile(file);
+			readUploadedFile(file);
 		} else {
 			page = "view/error.jsp";
 		}
 	}
 	
-	private void readExcelFile(File file) throws IOException{
+	private void readUploadedFile(File file) throws IOException{
 		for (int i = 0; i < browsers.length; i++) {
 			String[] browser = browsers[i];
 			FileLibrary readFile = new FileLibrary(filePath, file);
@@ -133,6 +137,7 @@ public class MainController extends HttpServlet {
 			case 1:
 				ku = new KeywordUtil(steps.get(0));
 				ku.setBrowser(browser);
+				ku.setIpAddress(ipAddress);
 				stepResult = ku.callMethod();
 				break;
 			case 2:
@@ -163,13 +168,12 @@ public class MainController extends HttpServlet {
 		try {
 			pdfUtility.WriteTestResultToPdfFile("Test.pdf", crossBrowserResult);
 		} catch (COSVisitorException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 		String File = "C:\\Users\\rochelle\\Documents\\Workspace\\SeleniumTraining\\WebTest\\Test.pdf";
-		Document document = new Document();
+		Document document = new Document(PageSize.A4, 36, 36, 120, 54);
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(File));
 		document.open();
 		//header

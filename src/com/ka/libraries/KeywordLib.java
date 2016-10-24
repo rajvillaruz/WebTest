@@ -21,21 +21,22 @@ public class KeywordLib {
 	public static WebDriver driver;
 	static By by;
 	
-	public static String openBrowser(String[] browser) throws MalformedURLException {
+	public static String openBrowser(String[] browser, String ipAddress) throws MalformedURLException {
 		String result;	
 		String msg = "";
 		
 		try {
+			System.out.println(ipAddress);
 			if(browser[2].equals(Constants.BROWSER_PROPERTY_CHROME.toString())){
 				capabilities = DesiredCapabilities.chrome();
-				driver = new RemoteWebDriver(new URL("http://192.10.10.140:5577/wd/hub"), capabilities);
+				driver = new RemoteWebDriver(new URL("http://" + ipAddress + "/wd/hub"), capabilities);
 				ExpectedLib.driver = driver;
 			} else if (browser[2].equals(Constants.BROWSER_PROPERTY_FIREFOX)){
 				capabilities = DesiredCapabilities.firefox();
-				driver = new RemoteWebDriver(new URL("http://192.10.10.140:5577/wd/hub"), capabilities);
+				driver = new RemoteWebDriver(new URL("http://" + ipAddress + "/wd/hub"), capabilities);
 				ExpectedLib.driver = driver;
 			}	
-			result = "PASSED" + " " + msg;
+			result = "PASSED";
 		} catch (Exception e) {
 			msg = e.getMessage();
 			result = "FAILED" + " " + msg;
@@ -51,7 +52,7 @@ public class KeywordLib {
 			driver.get(url);
 			driver.manage().window().maximize();
 			driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-			result = "PASSED" + " " + msg;
+			result = "PASSED";
 		} catch (Exception e) {
 			msg = e.getMessage();
 			result = "FAILED" + " " + msg;
@@ -66,7 +67,7 @@ public class KeywordLib {
 		try {
 			By byInputProp = getPropBy(property);
 			driver.findElement(byInputProp).sendKeys(value);
-			result = "PASSED" + " " + msg;
+			result = "PASSED";
 		} catch (Exception e) {
 			msg = e.getMessage();
 			result = "FAILED" + " " + msg;
@@ -84,7 +85,7 @@ public class KeywordLib {
 			
 			driver.findElement(byButtonProp).click();
 			msg = " ";
-			result = "PASSED" + " " + msg;
+			result = "PASSED";
 		} catch (Exception e) {
 			msg = e.getMessage();
 			result = "FAILED" + " " + msg;
@@ -99,7 +100,7 @@ public class KeywordLib {
 		
 		try {
 			driver.quit();
-			result = "PASSED" + " " + msg;
+			result = "PASSED";
 		} catch (Exception e) {
 			msg = e.getMessage();
 			result = "FAILED" + " " + msg;
